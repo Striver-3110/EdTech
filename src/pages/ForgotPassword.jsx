@@ -1,21 +1,28 @@
-import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPasswordResetToken } from '../services/operations/authAPI'
 import { Link } from 'react-router-dom'
 import { BiArrowBack } from 'react-icons/bi'
 
+//? once the forgot password is submitted
+//? then the update password page will be rendered!
+
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('') // Provide an initial value here
   const [emailSent, setEmailSent] = useState(false)
   const { loading } = useSelector(state => state.auth)
   const dispatch = useDispatch()
-  const onChange = e => {
-    setEmail(prevData => ({ ...prevData, [e.target.name]: e.target.value }))
+
+  const handleOnChange = e => {
+    console.log(e.target.value)
+    setEmail(e.target.value)
+    // setEmail({[e.target.name]:e.target.value}) //? this will give unexpected behavior of email input!
+    //? bcz we are trying to replace a parameter with an object!
   }
+
   const handleOnSubmit = e => {
     e.preventDefault()
-    dispatch(getPasswordResetToken(email))
+    dispatch(getPasswordResetToken(email, setEmailSent))
   }
   return (
     <div className='grid min-h-[calc(100vh-3.5rem)] place-items-center '>
@@ -42,9 +49,12 @@ const ForgotPassword = () => {
                   required
                   name='email'
                   value={email}
-                  onChange={onChange}
+                  onChange={handleOnChange}
                   placeholder='Enter your Email'
-                  className='w-full form-style p-2 rounded-sm border-richblack-25 border bg-richblack-800'
+                  className=' w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-12 text-richblack-5'
+                  style={{
+                    boxShadow: 'inset 0px -1px 0px rgba(255, 255, 255, 0.18)'
+                  }}
                 />
               </label>
             )}
