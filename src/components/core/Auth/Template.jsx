@@ -16,6 +16,8 @@ export default function Template ({
   const { loading } = useSelector(state => state.auth)
   return (
     <div className='grid min-h-[calc(100vh-3.5rem)] place-items-center'>
+      {/* ;<div className='h-[160px]'></div> */}
+
       {loading ? (
         <div className='spinner'></div>
       ) : (

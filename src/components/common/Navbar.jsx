@@ -9,18 +9,19 @@ import { useSelector } from 'react-redux'
 import { apiConnector } from '../../services/apiConnector'
 import { categories } from '../../services/apis'
 import { useEffect, useState } from 'react'
+import ProfileDropDown from '../core/Auth/ProfileDropDown'
 // import { useEffect } from 'react'
 
-// const subLinks = [
-//   {
-//     title: 'python',
-//     link: '/catalog/python'
-//   },
-//   {
-//     title: 'web dev',
-//     link: '/catalog/web-development'
-//   }
-// ]
+const subLinks = [
+  {
+    title: 'python',
+    link: '/catalog/python'
+  },
+  {
+    title: 'web dev',
+    link: '/catalog/web-development'
+  }
+]
 
 export default function Navbar () {
   let { token } = useSelector(state => state.auth)
@@ -41,15 +42,15 @@ export default function Navbar () {
       console.log('could not fetch the category list')
     }
   }
-  useEffect(() => {
-    fetchSubLinks()
-  })
+  // useEffect(() => {
+  //   // fetchSubLinks()
+  // })
   const matchRoute = route => {
     return matchPath({ path: route }, location.pathname)
   }
   return (
     //   Parent div
-    <div className='flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700'>
+    <div className='flex h-14 items-center bg-richblack-900 justify-center border-b-[1px] border-b-richblack-700'>
       {/* nav container div */}
       <div className='flex w-11/12 max-w maxContent items-center justify-between'>
         {/* Logo  Image */}
@@ -140,9 +141,8 @@ export default function Navbar () {
               </button>
             </Link>
           )}
-          {token === null && 1}
+          {token === null && <ProfileDropDown />}
           {/* //!! profile dropdown is yet to code */}
-          {/* <ProfileDropDown /> */}
         </div>
       </div>
     </div>

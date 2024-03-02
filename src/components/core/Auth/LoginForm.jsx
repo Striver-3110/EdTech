@@ -14,8 +14,8 @@ export default function LoginForm () {
   })
   const { email, password } = formData
   const handleOnChange = event => {
-    setFormData(prevData => ({
-      ...prevData,
+    setFormData(prevFormData => ({
+      ...prevFormData,
       [event.target.name]: event.target.value
     }))
   }
@@ -37,7 +37,7 @@ export default function LoginForm () {
           onChange={handleOnChange}
           placeholder='Enter Email Address'
           style={{
-            boxShadow: 'inset 0px -1px 0px rgba(255,255,255,0.18'
+            boxShadow: 'inset 0px -1px 0px rgba(255,255,255,0.18)'
           }}
           className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5'
         />

@@ -19,8 +19,9 @@ export default function SignupForm () {
     firstName: '',
     lastName: ''
   })
-  const { showConfirmPassword, setShowConfirmPassword } = useState(false)
-  const { showPassword, setShowPassword } = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+
   const { firstName, lastName, email, password, confirmPassword } = formData
 
   const handleOnChange = e => {
@@ -43,6 +44,8 @@ export default function SignupForm () {
   ]
   const handleOnSubmit = e => {
     e.preventDefault()
+    e.stopPropagation()
+
     if (password !== confirmPassword) {
       toast.error('Password do not match')
       return
@@ -65,7 +68,7 @@ export default function SignupForm () {
   }
 
   return (
-    <div>
+    <div className=''>
       {/* Tab component */}
       <Tab
         tabData={tabData}
@@ -75,7 +78,8 @@ export default function SignupForm () {
       <form
         action=''
         onSubmit={handleOnSubmit}
-        className='flex w-full flex-col gap-y-4'
+        className='flex w-full flex-col gap-y-4 mt-6
+ '
       >
         <div className='flex gap-x-4'>
           <label htmlFor='firstName'>

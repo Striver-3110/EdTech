@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const otpGenerator = require("otp-generator");
 const { mailSender } = require("../utils/nodeMailer");
 const { passwordUpdated } = require("../mail/templates/passwordUpdate");
+const otpTemplate  = require("../mail/templates/emailVerificationTemplate");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
@@ -49,6 +50,22 @@ exports.sendOTP = async (req, res) => {
     // console.log(otpPayload);
     const otpBody = OTP.create(otpPayload);
     // console.log("otpBody", otpBody);
+    try {
+      const emailResponse = await mailSender(
+        otpPayload.email,
+        "OTP  Verification Mail",
+        otpTemplate(otpPayload.otp)
+      );
+      console.log("Email sent successfully: ", emailResponse.response);
+    } catch (error) {
+      // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
+      console.error("Error occurred while sending email:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Error occurred while sending email",
+        error: error.message,
+      });
+    }
 
     res.status(200).json({
       success: true,

@@ -2,17 +2,11 @@ import { toast } from "react-hot-toast";
 // import { setLoading } from "../../slices/authSlice";
 import { endpoints } from "../apis";
 import { apiConnector } from "../apiConnector";
-import {
-  setSignupData,
-  setLoading,
-  setToken
-}from '../../slices/authSlice'
+import { setSignupData, setLoading, setToken } from "../../slices/authSlice";
 // const  = authReducer;
-import {setUser} from '../../slices/profileSlice';
+import { setUser } from "../../slices/profileSlice";
 // const  = profileReducer
-import {
-  addToCart, removeFromCart, resetCart
-} from '../../slices/cartSlice'
+import { addToCart, removeFromCart, resetCart } from "../../slices/cartSlice";
 // const  = cartReducer;
 const {
   SENDOTP_API,
@@ -23,6 +17,8 @@ const {
 } = endpoints;
 
 export const sendOTP = (email, navigate) => {
+  // console.log("REQ AT OTP SENT");
+  // console.log(email);
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
     //    the dispatch function, which is typically associated
@@ -32,11 +28,12 @@ export const sendOTP = (email, navigate) => {
     //    the corresponding reducers to update the state.
     dispatch(setLoading(true));
     try {
-      console.log(SENDOTP_API);
-      const response = await apiConnector("POST", SENDOTP_API, {
-        email: email,
+      const body = {
+        email,
         checkUserPresent: true,
-      });
+      };
+      // console.log(SENDOTP_API);
+      const response = await apiConnector("POST", SENDOTP_API, body);
       console.log("SENDOTP api response ............", response);
       console.log(response.data.success);
       if (!response.data.success) {
@@ -68,30 +65,30 @@ export const signUp = (
 ) => {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
-      dispatch(setLoading(true));
-      try {
-          const response = await apiConnector('POST', SIGNUP_API, {
-              accountType,
-              firstName,
-              lastName,
-              email,
-              password,
-              confirmPassword,
-              otp,
-          });
-          console.log('signup api response', response);
-          if (!response.data.success) {
-              throw new Error(response.data.message);
-          }
-          toast.success("Singup Successful");
-          navigate('/login');
-      } catch (error) {
-          console.log('SIGNUP API ERROR.......', error);
-          toast.error('Signup failed');
-          navigate('/signup');
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("POST", SIGNUP_API, {
+        accountType,
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        otp,
+      });
+      console.log("signup api response", response);
+      if (!response.data.success) {
+        throw new Error(response.data.message);
       }
-      dispatch(setLoading(false));
-      toast.dismiss(toastId);
+      toast.success("Singup Successful");
+      navigate("/login");
+    } catch (error) {
+      console.log("SIGNUP API ERROR.......", error);
+      toast.error("Signup failed");
+      navigate("/signup");
+    }
+    dispatch(setLoading(false));
+    toast.dismiss(toastId);
   };
 };
 
@@ -100,14 +97,10 @@ export function login(email, password, navigate) {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector(
-        "POST",
-        LOGIN_API,
-        {
-          email,
-          password,
-        }
-      );
+      const response = await apiConnector("POST", LOGIN_API, {
+        email,
+        password,
+      });
 
       console.log("LOGIN API RESPONSE............", response);
 
@@ -136,6 +129,7 @@ export function login(email, password, navigate) {
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`;
       dispatch(setUser({ ...response.data.user, image: userImage }));
       localStorage.setItem("token", JSON.stringify(response.data.token));
+      //? why home page and not profile page or dashboard
       navigate("/");
     } catch (error) {
       console.log("LOGIN API ERROR............", error);
@@ -145,6 +139,7 @@ export function login(email, password, navigate) {
     toast.dismiss(toastId);
   };
 }
+
 
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
@@ -200,8 +195,7 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   };
 }
 
-
-export const logout= (navigate)=> {
+export const logout = (navigate) => {
   return (dispatch) => {
     dispatch(setToken(null));
     dispatch(setUser(null));
@@ -211,4 +205,4 @@ export const logout= (navigate)=> {
     toast.success("Logged Out");
     navigate("/");
   };
-}
+};
