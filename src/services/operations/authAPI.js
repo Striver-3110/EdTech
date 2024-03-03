@@ -1,4 +1,6 @@
 import { toast } from "react-hot-toast";
+// import { Link, useHistory } from "react-router-dom";
+import { createBrowserHistory } from "history";
 // import { setLoading } from "../../slices/authSlice";
 import { endpoints } from "../apis";
 import { apiConnector } from "../apiConnector";
@@ -41,7 +43,7 @@ export const sendOTP = (email, navigate) => {
       } else {
         toast.success("OTP Sent Successfully");
         // navigating to next page after sending OTP
-        navigate("/verifyEmail");
+        navigate("/verify-email");
       }
     } catch (error) {
       console.log("send otp api error.........");
@@ -52,40 +54,56 @@ export const sendOTP = (email, navigate) => {
   };
 };
 
-export const signUp = (
-  email,
-  firstName,
-  lastName,
-  password,
-  confirmPassword,
-  accountType,
-  contactNumber,
-  otp,
-  navigate
-) => {
+export const signUp = (userData) => {
+  const {
+    email,
+    firstName,
+    lastName,
+    password,
+    confirmPassword,
+    accountType,
+    otp,
+    navigate,
+  } = userData;
+  console.log('otp at signup of frontend',otp);
+  const history = createBrowserHistory();
+  // console.log("front end sendOTP called! before response ");
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("POST", SIGNUP_API, {
-        accountType,
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        otp,
-      });
+      const response = await apiConnector(
+        "POST",
+        SIGNUP_API,
+        {
+          accountType,
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+          otp,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      if (!response) {
+        console.log("problem in getting response in sign up api in front end!");
+      }
       console.log("signup api response", response);
       if (!response.data.success) {
-        throw new Error(response.data.message);
+        throw new Error(
+          "data not found while fetching the response at signup front end api",
+          response.data.message
+        );
       }
       toast.success("Singup Successful");
       navigate("/login");
+      console.log("line after navigate of frontend signupapi");
     } catch (error) {
       console.log("SIGNUP API ERROR.......", error);
       toast.error("Signup failed");
       navigate("/signup");
+      // history.push("/signup");
     }
     dispatch(setLoading(false));
     toast.dismiss(toastId);
@@ -139,7 +157,6 @@ export function login(email, password, navigate) {
     toast.dismiss(toastId);
   };
 }
-
 
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {

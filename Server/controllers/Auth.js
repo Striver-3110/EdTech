@@ -14,16 +14,20 @@ const jwt = require("jsonwebtoken");
 //**********************************************************************************************************************************************
 
 exports.sendOTP = async (req, res) => {
+  console.log('backend sendOTP called!')
   try {
     // fetch email from req body
     const { email } = req.body;
     console.log(email)
     // check weather user exist in User collection
-    const checkUserPresent = await User.findOne({ email });
+    let checkUserPresent = await User.findOne({ email });
 
     // if user with the given email already exists!! return response that user exist
+    // checkUserPresent = null
+  console.log("backend sendOTP called! and found user",checkUserPresent);
+
     if (checkUserPresent) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "User already Registered",
       });
@@ -48,8 +52,8 @@ exports.sendOTP = async (req, res) => {
     }
     const otpPayload = { email, otp };
     // console.log(otpPayload);
-    const otpBody = OTP.create(otpPayload);
-    // console.log("otpBody", otpBody);
+    const otpBody = await OTP.create(otpPayload);
+    console.log("otpBody", otpBody);
     try {
       const emailResponse = await mailSender(
         otpPayload.email,
@@ -67,10 +71,10 @@ exports.sendOTP = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "OTP sent on your email",
-      otp,
+      otp,otpBody,
     });
   } catch (error) {
     console.log("error in sending otp Auth.js", error);
@@ -97,6 +101,16 @@ exports.signup = async (req, res) => {
     } = req.body;
 
     // validate each of them
+    console.log(
+      email,
+      firstName,
+      lastName,
+      password,
+      confirmPassword,
+      accountType,
+      contactNumber,
+      otp
+    );
     if (
       !email ||
       !firstName ||
@@ -104,7 +118,7 @@ exports.signup = async (req, res) => {
       !password ||
       !confirmPassword ||
       !accountType ||
-      !contactNumber ||
+      // !contactNumber ||
       !otp
     ) {
       return res

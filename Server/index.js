@@ -16,6 +16,7 @@ const profileRoutes = require("./routes/ProfileRoute");
 const { connectToMongo } = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+app.options("*", cors());
 const { connectToCloudinary } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 require("dotenv").config();
@@ -31,10 +32,13 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json()); // middleware for parsing json request body
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
+  cors(
+    // {
+    // origin: "http://localhost:3000",
+    // credentials: true,
+    // optionsSuccessStatus: 200,
+    // }
+  )
 );
 
 app.use(

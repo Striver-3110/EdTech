@@ -13,11 +13,11 @@ export default function SignupForm () {
   const navigate = useNavigate()
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT)
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: ''
+    email: 'pjay19520@gmail.com',
+    password: '9099285709',
+    confirmPassword: '9099285709',
+    firstName: 'jay',
+    lastName: 'prajapati'
   })
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [showPassword, setShowPassword] = useState(false)

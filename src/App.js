@@ -7,8 +7,10 @@ import Navbar from "./components/common/Navbar";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
+import Error from "./pages/Error";
 
 function App() {
   return (
@@ -41,13 +43,22 @@ function App() {
           }
         ></Route>
         <Route
-          path="update-password"
+          path="update-password/:id"
           element={
             <OpenRoute>
               <UpdatePassword />
             </OpenRoute>
           }
         ></Route>
+        <Route
+          path="verify-email"
+          element={
+            <OpenRoute>
+              <VerifyEmail />
+            </OpenRoute>
+          }
+        ></Route>
+        <Route path="*" element={<Error />}></Route>
       </Routes>
     </div>
   );
