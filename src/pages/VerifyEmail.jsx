@@ -45,15 +45,19 @@ const VerifyEmail = () => {
     // it does not contain otp
     // and i was destructuring it🥲�    // so the correct way of doing it
     // is given below
+    //   const { email, firstName, lastName, password, confirmPassword, accountType ,otp} =
+    // signupData
+    // destructuring updated from above to below
+
     const {
       email,
       firstName,
       lastName,
       password,
       confirmPassword,
-      accountType,
+      accountType
     } = signupData
-    console.log('otp at the verifyEmail',otpValue)
+    console.log('otp at the verifyEmail', otpValue)
     dispatch(
       signUp({
         email,
@@ -62,7 +66,7 @@ const VerifyEmail = () => {
         password,
         confirmPassword,
         accountType,
-        otp:otpValue,
+        otp: otpValue,
         navigate
       })
     )

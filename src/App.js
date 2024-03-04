@@ -11,6 +11,8 @@ import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import Error from "./pages/Error";
+import Contact from "./pages/Contact";
+import About from './pages/About';
 
 function App() {
   return (
@@ -34,6 +36,15 @@ function App() {
             </OpenRoute>
           }
         ></Route>
+        <Route path="/contact" element={<Contact />} />
+        <Route
+          path="about"
+          element={
+            <OpenRoute>
+              <About />
+            </OpenRoute>
+          }
+        />
         <Route
           path="forgot-password"
           element={
