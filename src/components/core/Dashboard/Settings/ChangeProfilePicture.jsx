@@ -2,12 +2,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateDisplayPicture } from '../../../../../Server/controllers/Profile'
+import { updateDisplayPicture } from '../../../../services/operations/SettingsAPI'
 import IconBtn from '../../../common/IconBtn'
 
-
 const ChangeProfilePicture = () => {
-  const { user } = useSelector(state.profile)
+  const { user } = useSelector(state => state.profile)
   const { token } = useSelector(state => state.auth)
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -44,12 +43,12 @@ const ChangeProfilePicture = () => {
     } catch (error) {
       console.log('ERROR Message -', error.message)
     }
+  }
+  useEffect(() => {
+    if (imageFile) {
+      previewFile(imageFile)
     }
-    useEffect(() => {
-        if (imageFile) {
-            previewFile(imageFile)
-        }
-    },[imageFile])
+  }, [imageFile])
   return (
     <>
       <div className='flex items-center justify-between rounded-md border-[1px] border-r-richblue-700 bg-richblack-800 p-8 px-12 text-richblack-5'>

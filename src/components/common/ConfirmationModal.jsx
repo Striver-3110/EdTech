@@ -1,6 +1,7 @@
 import React from 'react'
+import IconBtn from './IconBtn'
 
-const ConfirmationModal = ({modalData}) => {
+const ConfirmationModal = ({ modalData }) => {
   return (
     <div className='fixed inset-0 z-[1000] !mt-0 grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm'>
       <div className='w-11/12 max-w-[350px] rounded-lg border border-richblack-400 bg-richblack-800 p-6'>
@@ -11,15 +12,13 @@ const ConfirmationModal = ({modalData}) => {
           {modalData.text2}
         </p>
         <div className='flex items-center gap-x-4'>
-          <IconBtb
+          <IconBtn
             onClick={modalData?.btn1Handler}
             text={modalData?.btn2handler}
-                  />
-                  <button className='cursor-pointer rounded-md bg-richblack-200 py-[8px] px-[20px] font-semibold text-richblack-900'>
-                      {
-                          modalData?.btn2Text
-                      }
-                  </button>
+          />
+          <button className='cursor-pointer rounded-md bg-richblack-200 py-[8px] px-[20px] font-semibold text-richblack-900'>
+            {modalData?.btn2Text}
+          </button>
         </div>
       </div>
     </div>

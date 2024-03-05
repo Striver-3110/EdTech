@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { VscSignOut } from 'react-icons/vsc'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { sidebarLinks } from '../../../data/dashboard-links'
 import { logout } from '../../../services/operations/authAPI'
-import ConfirmationModal from '../../commonConfirmationModal'
+import ConfirmationModal from '../../common/ConfirmationModal'
 import SidebarLink from './SidebarLink'
+// import { SidebarLink } from './SidebarLink'
 
 const Sidebar = () => {
   const { user, loading: ProfileLoading } = useSelector(state => state.profile)
@@ -27,7 +28,7 @@ const Sidebar = () => {
           {sidebarLinks.map(link => {
             if (link.type && user?.accountType !== link.type) return null
             return (
-              <SidebarLinks key={link.id} link={link} iconName={link.icon} />
+              <SidebarLink key={link.id} link={link} iconName={link.icon} />
             )
           })}
         </div>

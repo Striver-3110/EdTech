@@ -1,10 +1,14 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RiDeleteBin6Line } from 'react-icons/gi'
-import { removeFromCart } from '../../../slices/cartSlice'
+import { RiDeleteBin6Line } from 'react-icons/ri'
+import { removeFromCart } from '../../../../slices/cartSlice'
+import cartSlice from '../../../../slices/cartSlice'
+import { GiNinjaStar } from 'react-icons/gi'
+// import { useDispatch } from 'react-redux'
 import ReactStars from 'react-rating-stars-component'
 
 const RenderCartCourses = () => {
+    const  dispatch = useDispatch()
   return (
     <div>
       {cartSlice.map((course, index) => {
@@ -31,7 +35,7 @@ const RenderCartCourses = () => {
             </div>
             <div>
               <button onClick={() => dispatch(removeFromCart(course._id))}>
-                <RiDeleteBin6line />
+                <RiDeleteBin6Line />
                 <span>Remove</span>
               </button>
               <p>Rs {course?.price}</p>
