@@ -1,5 +1,5 @@
 //******************************************************* */ https://documenter.getpostman.com/view/24441701/2s93kz6REm
-// ** TODO: give access to the course only if it is approved by atleast one of the admin
+// ** TODO: give access to the course only if it is approved by at least one of the admin
 // ** Google for information security : what are the types of data ??
 
 const express = require("express");

@@ -11,12 +11,20 @@ import { resetPassword } from '../services/operations/authAPI'
 
 const UpdatePassword = () => {
   const { loading } = useSelector(state => state.auth)
+  //? initializing form data into forData
   const [formData, setFormData] = useState({
     password: '',
     confirmPassword: ''
   })
+  //? eye button handler for show password
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+
+  //? the dispatch function, which is typically associated
+  //? with state management in libraries like Redux, as part
+  //? of asynchronous action creators.The dispatch function is
+  //? used to send actions to the Redux store, which then triggers
+  //? the corresponding reducers to update the state.
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -24,7 +32,7 @@ const UpdatePassword = () => {
   // why location???
   // bcz when user will click on the link sent using forgot password api!!
   // the link will contain the token at the end of the path
-  // and that token is required to verify at the update password page!!
+  // and that token is required to verify the user at the update password page!!
   const location = useLocation()
   const handleOnChange = e => {
     setFormData(prevFormData => ({

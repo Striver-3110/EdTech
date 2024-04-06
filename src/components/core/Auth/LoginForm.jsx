@@ -8,23 +8,41 @@ export default function LoginForm () {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
+
+  //? initializing login form data
+
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: 'pjay19520@gmail.com ',
+    password: '9099285709'
   })
+  //? destructuring form data
   const { email, password } = formData
+
+  //**************************************************handling on-change event**************************************************************
+
   const handleOnChange = event => {
     setFormData(prevFormData => ({
       ...prevFormData,
       [event.target.name]: event.target.value
     }))
   }
+  //!*********************************************************** handling submit event **********************************************
+
   const handleOnSubmit = event => {
     event.preventDefault()
+    //? the dispatch function, which is typically associated
+    //? with state management in libraries like Redux, as part
+    //? of asynchronous action creators.The dispatch function is
+    //? used to send actions to the Redux store, which then triggers
+    //? the corresponding reducers to update the state.
+
     dispatch(login(email, password, navigate))
   }
   return (
-    <form onSubmit={handleOnSubmit} className='mt-6 flex flex-col w-full gap-y-4'>
+    <form
+      onSubmit={handleOnSubmit}
+      className='mt-6 flex flex-col w-full gap-y-4'
+    >
       <label className='w-full'>
         <p className='mb-1 text-[0.875rem] text-richblack-5'>
           Email Address <sup className='text-pink-200'>*</sup>

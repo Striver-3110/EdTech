@@ -24,13 +24,16 @@ export default function SignupForm () {
 
   const { firstName, lastName, email, password, confirmPassword } = formData
 
+  //**************************************************handling on-change event**************************************************************
   const handleOnChange = e => {
     setFormData(prevData => ({
       ...prevData,
       [e.target.name]: e.target.value
     }))
   }
-  const tabData = [
+
+  //**************************************************form tab data**************************************************************
+   const tabData = [
     {
       id: 1,
       tabName: 'Student',
@@ -42,6 +45,8 @@ export default function SignupForm () {
       type: ACCOUNT_TYPE.INSTRUCTOR
     }
   ]
+
+  //!*********************************************************** handling submit event **********************************************
   const handleOnSubmit = e => {
     e.preventDefault()
     e.stopPropagation()
@@ -55,6 +60,13 @@ export default function SignupForm () {
       accountType
     }
 
+
+    //? the dispatch function, which is typically associated
+    //? with state management in libraries like Redux, as part
+    //? of asynchronous action creators.The dispatch function is
+    //? used to send actions to the Redux store, which then triggers
+    //? the corresponding reducers to update the state.
+
     dispatch(setSignupData(signupData))
     dispatch(sendOTP(formData.email, navigate))
     setFormData({
@@ -64,10 +76,12 @@ export default function SignupForm () {
       firstName: '',
       lastName: ''
     })
-    setAccountType(ACCOUNT_TYPE.STUDENT)
+    //* no need to set the account type as its already set by <Tab></Tab> component
+    // setAccountType(ACCOUNT_TYPE.STUDENT)
   }
 
   return (
+    
     <div className=''>
       {/* Tab component */}
       <Tab

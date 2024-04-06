@@ -65,7 +65,7 @@ export const signUp = (userData) => {
     otp,
     navigate,
   } = userData;
-  console.log('otp at signup of frontend',otp);
+  console.log("otp at signup of frontend", otp);
   const history = createBrowserHistory();
   // console.log("front end sendOTP called! before response ");
   return async (dispatch) => {
@@ -111,6 +111,7 @@ export const signUp = (userData) => {
 };
 
 export function login(email, password, navigate) {
+  //!!!****************************************!WHICH DISPATCH IS HERE? ***************************************************
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
@@ -149,6 +150,7 @@ export function login(email, password, navigate) {
       localStorage.setItem("token", JSON.stringify(response.data.token));
       //? why home page and not profile page or dashboard
       navigate("/");
+      toast.success("navigated to /");
     } catch (error) {
       console.log("LOGIN API ERROR............", error);
       toast.error("Login Failed");

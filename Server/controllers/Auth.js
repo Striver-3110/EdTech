@@ -5,26 +5,26 @@ const bcrypt = require("bcrypt");
 const otpGenerator = require("otp-generator");
 const { mailSender } = require("../utils/nodeMailer");
 const { passwordUpdated } = require("../mail/templates/passwordUpdate");
-const otpTemplate  = require("../mail/templates/emailVerificationTemplate");
+const otpTemplate = require("../mail/templates/emailVerificationTemplate");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 //*********************************************************************************************************************************************
 //*                                                     send OTP for email verification
 //**********************************************************************************************************************************************
-
+//? hits when user submits the signup page
 exports.sendOTP = async (req, res) => {
-  console.log('backend sendOTP called!')
+  console.log("backend sendOTP called!");
   try {
     // fetch email from req body
     const { email } = req.body;
-    console.log(email)
+    // console.log(email);
     // check weather user exist in User collection
     let checkUserPresent = await User.findOne({ email });
 
     // if user with the given email already exists!! return response that user exist
     // checkUserPresent = null
-  console.log("backend sendOTP called! and found user",checkUserPresent);
+    // console.log("backend sendOTP called! and found user", checkUserPresent);
 
     if (checkUserPresent) {
       return res.status(401).json({
@@ -53,7 +53,7 @@ exports.sendOTP = async (req, res) => {
     const otpPayload = { email, otp };
     // console.log(otpPayload);
     const otpBody = await OTP.create(otpPayload);
-    console.log("otpBody", otpBody);
+    // console.log("otpBody", otpBody);
     try {
       const emailResponse = await mailSender(
         otpPayload.email,
@@ -74,7 +74,8 @@ exports.sendOTP = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "OTP sent on your email",
-      otp,otpBody,
+      otp,
+      otpBody,
     });
   } catch (error) {
     console.log("error in sending otp Auth.js", error);
@@ -86,7 +87,10 @@ exports.sendOTP = async (req, res) => {
 //*                                                     Sign-up
 //**********************************************************************************************************************************************
 
+//? hits when the correct otp is entered at the verify-email page 
+//? verify email page gets signup data from the redux store as the data is already stored there by signup using setSignupData reducer
 exports.signup = async (req, res) => {
+  // console.log('at the backend signup api');
   // fetch all the info from req
   try {
     const {
@@ -99,6 +103,7 @@ exports.signup = async (req, res) => {
       contactNumber,
       otp,
     } = req.body;
+    // console.log('Otp at the backend signup api is :',otp)
 
     // validate each of them
     console.log(
@@ -108,7 +113,7 @@ exports.signup = async (req, res) => {
       password,
       confirmPassword,
       accountType,
-      contactNumber,
+      // contactNumber,
       otp
     );
     if (
@@ -133,7 +138,7 @@ exports.signup = async (req, res) => {
         message: "Password and confirmPassword must be same!:",
       });
     }
-    const existingUser = await User.findOne({email});
+    const existingUser = await User.findOne({ email });
     // console.log(existingUser);
     if (existingUser) {
       return res.status(400).json({
@@ -147,7 +152,7 @@ exports.signup = async (req, res) => {
       .limit(1);
 
     if (recentOTP.length === 0) {
-    //   // OTP not found for the email
+      //   // OTP not found for the email
 
       return res.status(400).json({
         success: false,
@@ -189,6 +194,7 @@ exports.signup = async (req, res) => {
       additionalDetails: ProfileDetails._id,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
     });
+
     return res.status(200).json({
       success: true,
       message: "User registered successfully!",
@@ -276,7 +282,7 @@ exports.changePassword = async (req, res) => {
     // getting user id from the req.body
     const userId = req.user.id;
     // find the user with the id present in req.body
-    const user = await User.findById({ _id:userId });
+    const user = await User.findById({ _id: userId });
     console.log(userId);
     // get updated details from req.body
     const { oldPassword, newPassword, confirmNewPassword } = req.body;
@@ -305,7 +311,7 @@ exports.changePassword = async (req, res) => {
     const encryptedPassword = await bcrypt.hash(newPassword, 10);
     // update the user's password
     const updatedUser = await User.findByIdAndUpdate(
-      { _id:userId },
+      { _id: userId },
       {
         //! ------------------- there may be an issue with this -------------------
         $set: { password: encryptedPassword },
@@ -314,7 +320,8 @@ exports.changePassword = async (req, res) => {
     );
     try {
       const emailResponse = await mailSender(
-        updatedUser.email,"this is header",
+        updatedUser.email,
+        "this is header",
         passwordUpdated(
           updatedUser.email,
           "Password Updated Successfully",

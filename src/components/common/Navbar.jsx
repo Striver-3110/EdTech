@@ -141,7 +141,7 @@ export default function Navbar () {
               </button>
             </Link>
           )}
-          {token === null && <ProfileDropDown />}
+          {token !== null && <ProfileDropDown />}
           {/* //!! profile dropdown is yet to code */}
         </div>
       </div>
