@@ -1,14 +1,32 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { RiEditBoxLine } from 'react-icons/ri'
 import IconBtn from '../../common/IconBtn'
+import { useEffect } from 'react'
+import { setUser } from '../../../slices/profileSlice'
 
 import { formattedDate } from '../../../utils/dateFormatter'
 // import IconBtn
 const MyProfile = () => {
   const { user } = useSelector(state => state.profile)
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+  // const {setUser} = useSelector((state)=>state.profile)
+  
+  useEffect(() => {
+    const savedUser = 
+   (JSON.parse(localStorage.getItem('user')));
+    if(savedUser){
+      dispatch(setUser(savedUser));
+    }
+  }, [dispatch])
+  
+  useEffect(()=>{
+    localStorage.setItem('user',JSON.stringify(user))
+  },[user]);
+
+
   return (
     <>
       <h1 className='mb-14 text-3xl font-medium text-richblack-5'>
@@ -23,7 +41,7 @@ const MyProfile = () => {
           />
           <div className='space-y-1'>
             <p className='text-lg font-semibold text-richblack-5'>
-              {user.firstName + ' ' + user?.lastName}
+              {user?.firstName + ' ' + user?.lastName}
             </p>
             <p className='text-sm text-richblack-300'>{user?.email}</p>
           </div>
@@ -56,7 +74,7 @@ const MyProfile = () => {
               : 'ring-richblack-400'
           } text-sm font-medium`}
         >
-          {user.additionalDetails?.about ?? 'Write something about your self'}
+          {user?.additionalDetails?.about ?? 'Write something about your self'}
         </p>
       </div>
       <div className='my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12'>

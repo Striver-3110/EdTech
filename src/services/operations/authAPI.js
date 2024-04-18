@@ -120,6 +120,7 @@ export function login(email, password, navigate) {
         email,
         password,
       });
+      navigate("/dashboard/my-profile");
 
       console.log("LOGIN API RESPONSE............", response);
 
@@ -149,8 +150,7 @@ export function login(email, password, navigate) {
       dispatch(setUser({ ...response.data.user, image: userImage }));
       localStorage.setItem("token", JSON.stringify(response.data.token));
       //? why home page and not profile page or dashboard
-      navigate("/");
-      toast.success("navigated to /");
+      // toast.success("navigated to /");
     } catch (error) {
       console.log("LOGIN API ERROR............", error);
       toast.error("Login Failed");
@@ -160,6 +160,7 @@ export function login(email, password, navigate) {
   };
 }
 
+//? when user enters email in the forgot password page getPasswordResetToken method is invoked
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
@@ -185,9 +186,13 @@ export function getPasswordResetToken(email, setEmailSent) {
     dispatch(setLoading(false));
   };
 }
-
+//? When the user follows the link directing them to 
+//? the ".../update-password" page, where they enter 
+//? their password and confirm it, upon clicking 
+//? the confirm button, the following method is invoked.
 export function resetPassword(password, confirmPassword, token, navigate) {
   return async (dispatch) => {
+    console.log('resetting password')
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
     try {
@@ -214,14 +219,15 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   };
 }
 
-export const logout = (navigate) => {
+export function logout(navigate) {
+  console.log("logging out")
   return (dispatch) => {
-    dispatch(setToken(null));
-    dispatch(setUser(null));
-    dispatch(resetCart());
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    toast.success("Logged Out");
-    navigate("/");
-  };
-};
+    dispatch(setToken(null))
+    dispatch(setUser(null))
+    dispatch(resetCart())
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    toast.success("Logged Out")
+    navigate("/")
+  }
+}

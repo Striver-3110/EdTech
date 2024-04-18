@@ -10,6 +10,9 @@ const SidebarLink = ({link,iconName}) => {
     const dispatch = useDispatch()
     const location = useLocation()
     const matchRoute = (route) => {
+        //? path present in the route will be matched with the pathname of the location!
+        //? using matchPath function!
+        //? based on its return value the style of the current link is updated
         return matchPath({path:route},location.pathname)
     }
   return (
@@ -20,7 +23,7 @@ const SidebarLink = ({link,iconName}) => {
         matchRoute(link.path)
           ? 'bg-yellow-800 text-yellow-50'
           : 'bg-opacity-0 text-richblack-300'
-      } transition-all duration-200`}
+      } transition-all duration-900`}
     >
       <span
         className={`absolute left-0 top-0 h-full w-[0.15rem bg-yellow-50] ${

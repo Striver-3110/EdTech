@@ -23,7 +23,10 @@ const Sidebar = () => {
   }
   return (
     <>
-      <div className='flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-richblack-700 bg-richblack-800 py-10'>
+    {/* main container for the sidebar */}
+      <div className='flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-richblack-800 bg-richblack-800 py-10'>
+
+        {/* common links of the sidebar */}
         <div className='flex flex-col'>
           {sidebarLinks.map(link => {
             if (link.type && user?.accountType !== link.type) return null
@@ -32,15 +35,19 @@ const Sidebar = () => {
             )
           })}
         </div>
+
+        {/* break line of the sidebar */}
         <div className='mx-auto mb-6 mt-6 h-[1px] w-10/12 bg-richblue-700'></div>
+
+        {/* other settings of the sidebar */}
+
         <div className='flex flex-col'>
           <SidebarLink
             link={{ name: 'Settings', path: '/dashboard/settings' }}
             iconName='VscSettingsGear'
           />
           <button
-            onClick={() => {
-              setConfirmationModal({
+            onClick={() => setConfirmationModal({
                 text1: 'Are you sure?',
                 text2: 'You will be logged out of your account.',
                 btn1Text: 'Logout',
@@ -48,7 +55,7 @@ const Sidebar = () => {
                 btn1Handler: () => dispatch(logout(navigate)),
                 btn2Handler: () => setConfirmationModal(null)
               })
-            }}
+            }
             className='px-8 py-2 text-sm font-medium text-richblack-300'
           >
             <div className='flex items-center gap-x-2'>

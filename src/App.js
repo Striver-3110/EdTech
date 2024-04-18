@@ -22,6 +22,7 @@ import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 
 import { useSelector } from "react-redux";
 import { ACCOUNT_TYPE } from "./utils/constants";
+import AddCourse from "./components/core/Dashboard/AddCourse";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -31,7 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route
-          path="login"
+          path="/login"
           element={
             <OpenRoute>
               <Login />
@@ -39,7 +40,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="signup"
+          path="/signup"
           element={
             <OpenRoute>
               <Signup />
@@ -50,9 +51,9 @@ function App() {
         <Route
           path="/about"
           element={
-            <OpenRoute>
+            // <OpenRoute>
               <About />
-            </OpenRoute>
+            // </OpenRoute>
           }
         />
         <Route
@@ -80,25 +81,35 @@ function App() {
           }
         ></Route>
         <Route
+          path="/dashboard"
           element={
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>
           }
         >
+
           <Route path="/dashboard/my-profile" element={<MyProfile />} />
           <Route path="/dashboard/Settings" element={<Settings />} />
-        </Route>
-        {user?.accountType === ACCOUNT_TYPE.STUDENT && (
+          {user?.accountType === ACCOUNT_TYPE.STUDENT && (
           <>
-            <Route path="dashboard/cart" element={<Cart />} />
+            <Route path="/dashboard/cart" element={<Cart />} />
             <Route
-              path="dashboard/enrolled-courses"
+              path="/dashboard/enrolled-courses"
               element={<EnrolledCourses />}
             />
           </>
         )}
+        {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+          <>
+            <Route path="/dashboard/add-course" element={<AddCourse />} />
+            <Route path="/dashboard/instructor" element={<div className="text-white font-light bg-richblack-700"> This is information about instructor</div>}></Route>
+            <Route path="/dashboard/my-courses" element={<div className="text-white font-light bg-richblack-700"> These are my courses</div>}></Route>
+          </>
+        )}
 
+        </Route>
+        
         <Route path="*" element={<Error />}></Route>
       </Routes>
     </div>

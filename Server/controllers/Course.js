@@ -8,9 +8,43 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 //*                                 Create a course(authorized to instructor only)
 //****************************************************************************************** */
 
+exports.editCourse = async (req,res) =>{
+  try{
+    const {
+      courseName,
+      courseDescription,
+      category,
+      whatYouWillLearn,
+      price,
+      tag,
+      status,
+      instructions
+    }= req.body;
+
+    const thumbnail = req?.files?.thumbnailImage;
+
+    const userId = req.data.id;
+
+    const user = User.findById(userId,{
+      accountType:"Instructor",
+    })
+
+    const courseDetails = Course.find({instructor:user._id,courseName:courseName})
+    
+
+
+  }catch(error){
+    console.log("error:", error)
+    return res.status(200).json({
+      msg:'internal server error',
+      error:error,
+    })
+  }
+}
+
 exports.createCourse = async (req, res) => {
   try {
-    // fetch data
+    // const data = req.body.data
     const {
       courseName,
       courseDescription,
@@ -22,8 +56,9 @@ exports.createCourse = async (req, res) => {
       instructions,
     } = req.body;
 
-    const thumbnail = req.files.thumbnailImage;
-    // validation
+
+    const thumbnail = req?.files?.thumbnailImage;
+
     if (
       !courseName ||
       !courseDescription ||
@@ -31,7 +66,9 @@ exports.createCourse = async (req, res) => {
       !whatYouWillLearn ||
       !price ||
       !thumbnail ||
-      !tag
+      !tag||
+      !status||
+      !instructions
     ) {
       return res
         .status(401)
@@ -44,7 +81,7 @@ exports.createCourse = async (req, res) => {
     const instructorDetails = await User.findById(userId, {
       accountType: "Instructor",
     });
-    console.log("User details:", instructorDetails);
+    // console.log("User details:", instructorDetails);
 
     if (!instructorDetails) {
       console.log("No user found with this id!");
@@ -170,21 +207,21 @@ exports.getCourseDetails = async (req, res) => {
     console.log(courseId);
     //find course details
     const courseDetails = await Course.find({ _id: courseId })
-    .populate({
-      path: "instructor",
-      populate: {
-        path: "additionalDetails",
-      },
-    })
-    .populate("category")
-    // //.populate("ratingAndreviews")
-    // .populate({
-    //   path: "courseContent",
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("category")
+      // //.populate("ratingAndreviews")
+      // .populate({
+      //   path: "courseContent",
       // populate: {
       //   path: "subSection",
       // },
-    // })
-    .exec();
+      // })
+      .exec();
 
     //validation
     if (!courseDetails) {

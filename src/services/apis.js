@@ -8,15 +8,15 @@ export const endpoints = {
   SIGNUP_API: BASE_URL + "/auth/signup",
   LOGIN_API: BASE_URL + "/auth/login",
   RESETPASSTOKEN_API: BASE_URL + "/auth/resetPasswordToken",
-  RESETPASSWORD_API: BASE_URL + "/auth/changePassword",
+  RESETPASSWORD_API: BASE_URL + "/auth/resetPassword",
 };
 export const categories = {
   CATEGORIES_API: BASE_URL + "/course/categoryPageDetails",
 };
 
 export const contactUsEndpoint = {
-  CONTACT_US_API : BASE_URL + 'reach/contact'
-}
+  CONTACT_US_API: BASE_URL + "reach/contact",
+};
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL;
 

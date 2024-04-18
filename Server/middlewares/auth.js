@@ -6,10 +6,22 @@ const User = require("../models/User");
 exports.auth = async (req, res, next) => {
   try {
     // all three ways to get token from requests are listed below!
+    // console.log(
+    //   "TOKEN At auth.js for change password (Server/middlewares/auth.js)",
+    //   req.body.token
+    // );
+
+    // console.log(req.headers("authorization").replace("Bearer", ""));
+
     const token =
-      req.body.token ||
-      req.cookies.token ||
-      req.headers("auth-token").replace("Bearer", "");
+      req.body.token || 
+      //? had problem with the line given below
+      //? make sure that you are passing token exactly with the same name as given below from the frontend
+      req.header("Authorization").replace("Bearer ", "");
+
+    // console.log(token)
+    //? req.headers() line was causing the error
+    // req.headers("auth-token").replace("Bearer", "");
     if (!token) {
       console.log("Invalid request!");
       return res.status(400).json({
@@ -18,9 +30,17 @@ exports.auth = async (req, res, next) => {
       });
     }
 
+    // console.log("token at the server/controllers/course.js",req.body.token)
     // once the token is found! then verify the token and fetch the user from the token!
     try {
       const data = jwt.verify(token, process.env.JWT_SECRET);
+      if (!data) {
+        return res.status(400).json({ msg: "no data found!" });
+      }
+      // console.log(data)
+      const email = data?.email;
+      const user = await User.findOne({ email });
+      // console.log(user);
       // *************
       req.user = data;
       // *************
@@ -28,7 +48,7 @@ exports.auth = async (req, res, next) => {
       console.log("Token is invalid!");
       return res.status(401).json({
         success: false,
-        message: "Invalid Token",
+        message: "Invalid Token" + error,
       });
     }
     next();

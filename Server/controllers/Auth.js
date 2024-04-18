@@ -87,7 +87,7 @@ exports.sendOTP = async (req, res) => {
 //*                                                     Sign-up
 //**********************************************************************************************************************************************
 
-//? hits when the correct otp is entered at the verify-email page 
+//? hits when the correct otp is entered at the verify-email page
 //? verify email page gets signup data from the redux store as the data is already stored there by signup using setSignupData reducer
 exports.signup = async (req, res) => {
   // console.log('at the backend signup api');
@@ -210,7 +210,7 @@ exports.signup = async (req, res) => {
 };
 
 //*********************************************************************************************************************************************
-//*                                                     Log-in
+//*                                                                 Log-in
 //**********************************************************************************************************************************************
 
 exports.login = async (req, res) => {
@@ -220,11 +220,12 @@ exports.login = async (req, res) => {
 
     // validate data
     if (!email || !password) {
-      res.status(403).json({
+      return res.status(403).json({
         success: false,
         message: "All the fields are required",
       });
     }
+    
     // check weather user exists or not!
     const user = await User.findOne({ email }).populate("additionalDetails");
     if (!user) {
@@ -266,7 +267,7 @@ exports.login = async (req, res) => {
     }
   } catch (error) {
     console.log("error in login Auth.js", error.message);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Login failed! please try again!",
     });
@@ -280,10 +281,12 @@ exports.login = async (req, res) => {
 exports.changePassword = async (req, res) => {
   try {
     // getting user id from the req.body
+    console.log("user is :", req.user);
     const userId = req.user.id;
     // find the user with the id present in req.body
+    // console.log(userId)
+    // console.log("userId", userId);
     const user = await User.findById({ _id: userId });
-    console.log(userId);
     // get updated details from req.body
     const { oldPassword, newPassword, confirmNewPassword } = req.body;
     if (!oldPassword || !newPassword || !confirmNewPassword) {
@@ -318,6 +321,7 @@ exports.changePassword = async (req, res) => {
       },
       { new: true }
     );
+    // console.log("before mail is sent");
     try {
       const emailResponse = await mailSender(
         updatedUser.email,
@@ -343,7 +347,7 @@ exports.changePassword = async (req, res) => {
       .json({ success: true, message: "Password updated successfully" });
   } catch (error) {
     // If there's an error updating the password, log the error and return a 500 (Internal Server Error) error
-    console.error("Error occurred while updating password:", error);
+    // console.error("Error occurred while updating password:", error);
     return res.status(500).json({
       success: false,
       message: "Error occurred while updating password",

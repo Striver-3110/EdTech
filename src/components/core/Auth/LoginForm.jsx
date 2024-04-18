@@ -12,7 +12,7 @@ export default function LoginForm () {
   //? initializing login form data
 
   const [formData, setFormData] = useState({
-    email: 'pjay19520@gmail.com ',
+    email: 'prajapatijay31100@gmail.com ',
     password: '9099285709'
   })
   //? destructuring form data
