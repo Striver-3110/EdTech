@@ -31,9 +31,9 @@ export const CourseBuilderForm = () => {
   const { token } = useSelector(state => state.auth)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    console.log('Updated')
-  }, [course])
+  // useEffect(() => {
+  //   console.log('Updated')
+  // }, [course])
   const onSubmit = async data => {
     setLoading(true)
     let result = null
@@ -50,14 +50,18 @@ export const CourseBuilderForm = () => {
     }else{
         result = await createSection(
             {
-                sectionName:data.sectionName,
-                courseId:course.id,
+              //? fetch section name from the front-end input field
+              sectionName:data.sectionName,
+              //? fetch course Id from the redux store
+              courseId:course._id,
             },
             token
         )
     }
+    console.log('here after add section and result is :',result)  
 
     if(result ){
+      console.log("create section response result => ",result)
         dispatch(setCourse(result));
         setEditSectionName(null);
         setValue('sectionName','');
@@ -73,6 +77,7 @@ export const CourseBuilderForm = () => {
     dispatch(setEditCourse(true))
   }
   const goToNext = () =>{
+    console.log(course.courseContent)
     if(course?.courseContent?.length === 0){
         toast.error('Please add at-least one Section')
         return
