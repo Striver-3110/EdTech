@@ -162,7 +162,6 @@ export const editCourseDetails = async (data, token) => {
     toast.error(error.message);
   }
   toast.dismiss(toastId);
-  
   return result;
 };
 
@@ -174,12 +173,6 @@ export const createSection = async (data, token) => {
     const response = await apiConnector("POST", CREATE_SECTION_API, data, {
       Authorization: `Bearer ${token}`,
     });
-    if(!response){
-      // console.log(response)
-      console.log("could not create section!")
-      return 
-
-    }
     console.log("CREATE SECTION API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Create Section");
@@ -188,7 +181,7 @@ export const createSection = async (data, token) => {
     result = response?.data?.updatedCourse;
   } catch (error) {
     console.log("CREATE SECTION API ERROR............", error);
-    toast.error("sectionCreation Error",error.message);
+    toast.error(error.message);
   }
   toast.dismiss(toastId);
   return result;

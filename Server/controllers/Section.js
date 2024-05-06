@@ -6,10 +6,12 @@ exports.createSection = async (req, res) => {
     // Extract the required properties from the request body
     const { sectionName, courseId } = req.body;
 
+    // console.log(courseId," ")
+    // console.log(sectionName)
+
     // Validate the input
-    if(!sectionName)
     if (!sectionName || !courseId) {
-      return res.status(400).json({
+      return res.status(400).json({ 
         success: false,
         message: "Missing required properties",
       });

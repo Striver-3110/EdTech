@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { createSubSection, updateSubSection } from '../../../../../services/operations/courseDetailsAPI';
 import { setCourse } from '../../../../../slices/courseSlice';
-import { Form } from 'react-router-dom';
+// import { Form } from 'react-router-dom';
 import {RxCross1} from "react-icons/rx"
 import Upload from '../Upload';
 import IconBtn from '../../../../common/IconBtn';
@@ -172,7 +172,6 @@ const SubSectionModal = ({
                         <div>
                             <IconBtn 
                                 text={loading ? "Loading...": edit ? "Save Changes" : "Save"}
-                                // onclick={}
                             />
                         </div>
                     )

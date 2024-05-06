@@ -5,8 +5,7 @@ const {
   createCourse,
   showAllCourses,
   getCourseDetails,
-  editCourse,
-  // getInstructorCourses
+  editCourse
 } = require("../controllers/Course");
 
 const {
@@ -45,11 +44,9 @@ const {
 
 router.post("/createCourse", auth, isInstructor, createCourse); // route tested
 router.get("/getAllCourses", showAllCourses); // route tested
-router.get("/getInstructorCourses",auth,isInstructor, getInstructorCourses); // route tested
-
 
 router.get("/getCourseDetails", getCourseDetails); // route tested
-router.post('/editCourse',auth,isInstructor,editCourse)
+router.post('/editCorse',editCourse)
 
 //********************************************************************************************************************* */
 //**                                    Section Routes

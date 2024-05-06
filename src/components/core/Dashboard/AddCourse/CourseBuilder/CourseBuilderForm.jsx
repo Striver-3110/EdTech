@@ -17,7 +17,10 @@ import {
 } from '../../../../../services/operations/courseDetailsAPI'
 import NestedView from './NestedView'
 
+
 export const CourseBuilderForm = () => {
+
+
   const {
     register,
     handleSubmit,
@@ -50,18 +53,14 @@ export const CourseBuilderForm = () => {
     }else{
         result = await createSection(
             {
-              //? fetch section name from the front-end input field
-              sectionName:data.sectionName,
-              //? fetch course Id from the redux store
-              courseId:course._id,
+                sectionName:data.sectionName,
+                courseId:course._id,
             },
             token
         )
     }
-    console.log('here after add section and result is :',result)  
 
     if(result ){
-      console.log("create section response result => ",result)
         dispatch(setCourse(result));
         setEditSectionName(null);
         setValue('sectionName','');
@@ -77,7 +76,6 @@ export const CourseBuilderForm = () => {
     dispatch(setEditCourse(true))
   }
   const goToNext = () =>{
-    console.log(course.courseContent)
     if(course?.courseContent?.length === 0){
         toast.error('Please add at-least one Section')
         return

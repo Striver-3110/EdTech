@@ -3,8 +3,6 @@ const Category = require("../models/Category");
 const Course = require("../models/Course");
 require("dotenv").config();
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
-const { courseEndpoints } = require("../../src/services/apis");
-console.log(courseEndpoints)
 
 //****************************************************************************************** */
 //*                                 Create a course(authorized to instructor only)
@@ -12,22 +10,6 @@ console.log(courseEndpoints)
 
 exports.editCourse = async (req,res) =>{
   try{
-    const courseId = req?.body?.courseId;
-    const updatedData = req?.body;
-    // console.log("course ID is:",courseId,"\nreq body is:",updatedData)
-    const course = await Course.findById(courseId);
-
-    if(!course){
-      return res.status(404).json({
-        msg:"course not found!",
-        success:false
-      })
-    }
-
-    const updatedCourse = await Course.findByIdAndUpdate(courseId,{
-      updatedData
-    })
-
     const {
       courseName,
       courseDescription,
@@ -41,15 +23,14 @@ exports.editCourse = async (req,res) =>{
 
     const thumbnail = req?.files?.thumbnailImage;
 
-    // console.log(req)
-    const userId = req.user.id;
+    const userId = req.data.id;
 
     const user = User.findById(userId,{
       accountType:"Instructor",
     })
 
-    // const courseDetails = Course.find({instructor:user._id,courseName:courseName})
-
+    const courseDetails = Course.find({instructor:user._id,courseName:courseName})
+    
 
 
   }catch(error){
@@ -263,4 +244,3 @@ exports.getCourseDetails = async (req, res) => {
     });
   }
 };
-

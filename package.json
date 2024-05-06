@@ -9,7 +9,6 @@
     "concurrently": "^8.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "esbuild": "^0.20.2",
     "history": "^5.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -29,12 +28,10 @@
     "web-vitals": "^2.1.4"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
+    "type": "git"
   },
-  "author": "Pranay Gupta",
+  "author": "Prajapati jay",
   "bugs": {
-    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
   },
   "scripts": {
     "start": "react-scripts start",

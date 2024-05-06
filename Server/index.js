@@ -4,8 +4,6 @@
 
 const express = require("express");
 const app = express();
-// require = require('esm')(module)
-// module.exports = require('./app.js')
 
 // import routes from different modules and add them as a route on the server
 const userRoutes = require("./routes/UserRoute");

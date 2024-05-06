@@ -1,9 +1,6 @@
-//!todo: what is stale while revalidate and react query for the request and response!
-
 //!TODO: where else can i put config files
 
 import { Routes, Route } from "react-router-dom";
-import Courses from "./components/core/Dashboard/MyCourses/Courses"
 import "./App.css";
 import Home from "./pages/Home";
 import Navbar from "./components/common/Navbar";
@@ -107,7 +104,7 @@ function App() {
           <>
             <Route path="/dashboard/add-course" element={<AddCourse />} />
             <Route path="/dashboard/instructor" element={<div className="text-white font-light bg-richblack-700"> This is information about instructor</div>}></Route>
-            <Route path="/dashboard/my-courses" element={<Courses/>}></Route>
+            <Route path="/dashboard/my-courses" element={<div className="text-white font-light bg-richblack-700"> These are my courses</div>}></Route>
           </>
         )}
 

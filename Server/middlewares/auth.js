@@ -51,7 +51,6 @@ exports.auth = async (req, res, next) => {
         message: "Invalid Token" + error,
       });
     }
-    console.log('user verified successfully!')
     next();
   } catch (error) {
     return res.status(401).json({
@@ -91,7 +90,6 @@ exports.isInstructor = async (req, res, next) => {
         message: "This is a protected route for Instructor only!",
       });
     }
-    console.log("user is verified instructor!")
     next();
   } catch (error) {
     return res.status(500).json({

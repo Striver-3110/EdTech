@@ -20,17 +20,19 @@ exports.createSubSection = async (req, res) => {
     // console.log(video);
 
     // Upload the video file to Cloudinary
-    const uploadDetails = await uploadVideoToCloudinary(
+    let uploadDetails = await uploadVideoToCloudinary(
       video,
       process.env.FOLDER_NAME
     );
-    uploadDetails = uploadDetails ? uploadDetails : 'upload details are not found';
-    // console.log(uploadDetails)
+    // uploadDetails = uploadDetails ? uploadDetails : 'upload details are not found';
+    console.log('this are upload details',uploadDetails)
     if (!uploadDetails) {
       return res.status(400).json({
         success: false,
         message: 'error in uploading video to cloudinary' + error.message
       })
+    }else{
+      console.log("video uploaded successfully")
     }
     console.log("upload details", uploadDetails);
     // Create a new sub-section with the necessary information
