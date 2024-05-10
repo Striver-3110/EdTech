@@ -1,4 +1,5 @@
 const Profile = require("../models/Profile");
+const Course = require('../models/Course')
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require('../utils/imageUploader');
 
@@ -152,3 +153,34 @@ exports.getEnrolledCourses = async (req, res) => {
     });
   }
 };
+
+exports.instructorDashboard = async (req,res) =>{
+  try {
+    //? get instructor id from req.user
+    const instructorId = req.user.id;
+    console.log("instructor id instructor dashboard profile apis is: ",instructorId)
+    //? fetch all the courses of instructor
+    const courses = await Course.find({instructor:instructorId})
+    const courseData = courses.map((course)=>{
+      const totalStudentsEnrolled = course.studentsEnrolled.length
+      const totalAmountGenerated = course.price * totalStudentsEnrolled
+
+      // lets create course data object containing all the course related information
+      const courseDataWithStats = {
+        _id: course._id,
+        courseName: course.name,
+        courseDescription : course.courseDescription,
+        totalStudentsEnrolled,
+        totalAmountGenerated
+      }
+      return courseDataWithStats;
+    })
+    res.status(200).json({ courses: courseData })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ 
+      success:false,
+      message: "Server Error",
+     })
+  }
+}

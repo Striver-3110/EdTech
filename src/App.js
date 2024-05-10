@@ -19,6 +19,8 @@ import MyProfile from "./components/core/Dashboard/MyProfile";
 import Settings from "./components/core/Dashboard/Settings";
 import Cart from "./components/core/Dashboard/Cart";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+import EditCourse from "./components/core/Dashboard/EditCourse";
+import Instructor from "./components/core/Dashboard/Instructor";
 // import CoursesTable from "./components/core/Dashboard/InstructorCourses/CoursesTable";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 
@@ -105,8 +107,9 @@ function App() {
         {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
           <>
             <Route path="/dashboard/add-course" element={<AddCourse />} />
-            <Route path="/dashboard/instructor" element={<div className="text-white font-light bg-richblack-700"> This is information about instructor</div>}></Route>
+            <Route path="/dashboard/instructor" element={<Instructor className="text-white font-light bg-richblack-700"> This is information about instructor</Instructor>}></Route>
             <Route path="/dashboard/my-courses" element={<MyCourses className="text-white font-light bg-richblack-700"/>}></Route>
+            <Route path="/dashboard/edit-course/:courseId" element={<EditCourse className="text-white font-light bg-richblack-700"/>}></Route>
           </>
         )}
 

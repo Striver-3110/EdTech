@@ -3,9 +3,11 @@ const Category = require("../models/Category");
 const Course = require("../models/Course");
 const SubSection = require('../models/SubSection')
 const Section = require('../models/Section')
+const CourseProgress = require('../models/CourseProgress')
 require("dotenv").config();
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const { categories } = require("../../src/services/apis");
+const {convertSecondsToDuration} = require('../utils/secToDuration')
 
 //****************************************************************************************** */
 //*                                 Create a course(authorized to instructor only)
@@ -348,7 +350,6 @@ exports.deleteCourse = async(req,res) =>{
       await Section.findByIdAndDelete(sectionId)
     }
 
-
     const result = await Course.findByIdAndDelete(courseId)
     return res.status(200).json({
       success:true,
@@ -360,6 +361,79 @@ exports.deleteCourse = async(req,res) =>{
       success: false,
       message: "Server error",
       error: error.message,
+    })
+  }
+}
+
+exports.getFullCourseDetails = async(req,res) =>{
+  try {
+    const {courseId} = req.body
+    console.log(courseId)
+    const userId = req.user.id
+    const courseDetails = await Course.findOne({
+      _id: courseId,
+    })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "additionalDetails",
+        },
+      })
+      .populate("category")
+      .populate("ratingAndReviews")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .exec()
+
+    let courseProgressCount = await CourseProgress.findOne({
+      courseID: courseId,
+      userId: userId,
+    })
+
+    console.log("courseProgressCount : ", courseProgressCount)
+
+    if (!courseDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find course with id: ${courseId}`,
+      })
+    }
+
+    // if (courseDetails.status === "Draft") {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: `Accessing a draft course is forbidden`,
+    //   });
+    // }
+
+    let totalDurationInSeconds = 0
+    courseDetails.courseContent.forEach((content) => {
+      content.subSection.forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration)
+        totalDurationInSeconds += timeDurationInSeconds
+      })
+    })
+
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        courseDetails,
+        totalDuration,
+        completedVideos: courseProgressCount?.completedVideos
+          ? courseProgressCount?.completedVideos
+          : [],
+      },
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     })
   }
 }

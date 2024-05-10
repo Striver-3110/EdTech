@@ -7,7 +7,8 @@ const {
   getCourseDetails,
   editCourse,
   getInstructorCourses,
-  deleteCourse
+  deleteCourse,
+  getFullCourseDetails
 } = require("../controllers/Course");
 
 
@@ -51,6 +52,7 @@ router.get("/getAllCourses", showAllCourses); // route tested
 router.get("/getCourseDetails", auth,getCourseDetails); // route tested
 router.post("/editCourse",auth, isInstructor,editCourse)
 router.delete("/deleteCourse",auth,isInstructor,deleteCourse)
+router.post("/getFullCourseDetails",auth,isInstructor,getFullCourseDetails)
 
 //********************************************************************************************************************* */
 //**                                    Section Routes
