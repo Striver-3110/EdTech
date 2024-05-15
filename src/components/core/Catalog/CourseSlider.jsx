@@ -1,6 +1,7 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode, Pagination } from 'swiper'
+import CourseCard from './CourseCard'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/pagination'
@@ -27,7 +28,8 @@ export default function CourseSlider ({ courses }) {
               <SwiperSlide key={i}>
                 {/* TODO:! course Card to be implemented*/}
                 {/* img for testing purpose */}
-                <img src={course?.thumbnail} alt='' />
+                {/* <img src={course?.thumbnail} alt='' /> */}
+                <CourseCard course={course} height={`h-[250px]`}/>
               </SwiperSlide>
             )
           })}

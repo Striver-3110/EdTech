@@ -6,6 +6,7 @@ import { getCatalogPageData } from '../services/operations/catalogPageDataAPI'
 import Error from './Error'
 import Footer from '../components/common/Footer'
 import CourseSlider from '../components/core/Catalog/CourseSlider'
+import CourseCard from '../components/core/Catalog/CourseCard'
 
 
 export default function Catalog () {
@@ -30,7 +31,7 @@ export default function Catalog () {
         )
         setLoading(false)
 
-        // console.log("all the categories at catalog are:",allCategories?.data?.allCategories)
+        console.log("all the categories at catalog are:",allCategories?.data?.allCategories)
         let fetchedCategoryId = allCategories?.data?.allCategories?.filter(
           c => {
             return (
@@ -141,9 +142,15 @@ export default function Catalog () {
         <div className="py-8">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* to be implemented */}
-            <span className='text-white'>
+            {/* <span className='text-white'>
          Course Slider
-            </span>
+            </span> */}
+            {
+                catalogPageData?.data?.topSellingCourses?.slice(0,4)
+                .map((course,i)=>(
+                    <CourseCard key={i} course={course} height={`h-[450px]`}/>
+                ))
+            }
           </div>
         </div>
       </div>
