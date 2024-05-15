@@ -10,7 +10,7 @@ const endpoints = {
 };
 // module.exports = { endpoints };
 const categories = {
-  CATEGORIES_API: BASE_URL + "/course/categoryPageDetails",
+  CATEGORIES_API: BASE_URL + "/course/showAllCategories",
 };
 
 // const contactUsEndpoint = {

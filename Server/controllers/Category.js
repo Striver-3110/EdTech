@@ -64,8 +64,11 @@ exports.showAllCategories = async (req, res) => {
 
 exports.categoryPageDetails = async (req, res) => {
   try {
+
     // get categoryId from req.body
     const { categoryId } = req.body;
+    console.log("category id at category page details controller of Category.js",categoryId)
+    
     if (!categoryId) {
       return res.status(400).json({
         success: false,
@@ -91,27 +94,6 @@ exports.categoryPageDetails = async (req, res) => {
     })
       .populate(["courses"])
       .exec();
-
-    // const topTenSellingCourses = await Category.find(
-    //   {},
-    //   {
-    //     $select: "name description",
-    //   }
-    // )
-    //   .populate({
-    //     path: "courses",
-    //     options: { sort: { price: 1 } },
-    //   })
-    //   .limit(10);
-    // //return response
-    // return res.status(200).json({
-    //   success: true,
-    //   data: {
-    //     selectedCategory,
-    //     differentCategories,
-    //     topTenSellingCourses,
-    //   },
-    // });
 
     const topTenSellingCourses = await Category.aggregate([
       {
