@@ -1,7 +1,6 @@
 // require('dotenv').config();
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-console.log(BASE_URL);
 
 export const endpoints = {
   SENDOTP_API: BASE_URL + "/auth/sendOTP",
@@ -10,6 +9,7 @@ export const endpoints = {
   RESETPASSTOKEN_API: BASE_URL + "/auth/resetPasswordToken",
   RESETPASSWORD_API: BASE_URL + "/auth/resetPassword",
 };
+module.exports = { endpoints };
 export const categories = {
   CATEGORIES_API: BASE_URL + "/course/categoryPageDetails",
 };

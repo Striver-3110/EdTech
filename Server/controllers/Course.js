@@ -3,6 +3,7 @@ const Category = require("../models/Category");
 const Course = require("../models/Course");
 require("dotenv").config();
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
+const { categories } = require("../../src/services/apis");
 
 //****************************************************************************************** */
 //*                                 Create a course(authorized to instructor only)
@@ -10,28 +11,40 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
 exports.editCourse = async (req,res) =>{
   try{
-    const {
-      courseName,
-      courseDescription,
-      category,
-      whatYouWillLearn,
-      price,
-      tag,
-      status,
-      instructions
-    }= req.body;
+    let {courseId} = req.body;
+    const course = await Course.findById(courseId)
+    if(!course){
+      return res.status(404).json({
+        success:false,
+        message:"Course Not Found"
+      })
+    }
 
-    const thumbnail = req?.files?.thumbnailImage;
+    //?if thumbnail is passed to be updated?
+    if(req.files){
+      const thumbnail = req.files.thumbnailImage
+      // upload it to cloudinary
 
-    const userId = req.data.id;
+      const thumbnailImage = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME)
+      course.thumbnail = thumbnailImage.secure_url
+    }
 
-    const user = User.findById(userId,{
-      accountType:"Instructor",
-    })
+    //?lets take remaining items that are passed in the request so that we can update them in the course
+    const updates = req.body;
+    for(const key in updates){
+      if(updates.hasOwnProperty(key)){
+        if(key === 'tag' || key === 'instructions'){
+          course[key] = JSON.parse(updates[key])
+        }else{
+          course[key] = updates[key]
+        }
+      }
+    }
+    // await course.save()
 
-    const courseDetails = Course.find({instructor:user._id,courseName:courseName})
+    // const updatedCourse = await Course.findById(courseId)
+
     
-
 
   }catch(error){
     console.log("error:", error)

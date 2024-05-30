@@ -5,6 +5,7 @@ import React from 'react'
 import { CourseBuilderForm } from './CourseBuilder/CourseBuilderForm'
 import CourseInformationForm from './CourseInformation/CourseInformationForm'
 import {setStep} from '../../../../slices/courseSlice'
+import PublishCourse from './PublishCourse/index'
 
 const RenderSteps = () => {
   const {step} = useSelector(state=>state.course);
@@ -144,7 +145,7 @@ const RenderSteps = () => {
 
       {step === 1 && <CourseInformationForm />}
        {step === 2 && <CourseBuilderForm/>}
-      {/* {step === 3 && <PublishCourse/>} */}
+      {step === 3 && <PublishCourse/>}
     </>
   )
 }

@@ -8,6 +8,7 @@ const {
   editCourse
 } = require("../controllers/Course");
 
+
 const {
   createCategory,
   showAllCategories,
@@ -46,7 +47,7 @@ router.post("/createCourse", auth, isInstructor, createCourse); // route tested
 router.get("/getAllCourses", showAllCourses); // route tested
 
 router.get("/getCourseDetails", getCourseDetails); // route tested
-router.post('/editCorse',editCourse)
+router.post('/editCourse',editCourse)
 
 //********************************************************************************************************************* */
 //**                                    Section Routes
