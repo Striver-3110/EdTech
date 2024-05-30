@@ -13,8 +13,8 @@ export default function PublishCourse() {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const course = useSelector(state=>state.course);
-    const token = useSelector(state=>state.auth)
+    const {course} = useSelector(state=>state.course);
+    const {token} = useSelector(state=>state.auth)
     const [loading,setLoading] = useState(false)
 
     useEffect(()=>{
@@ -37,17 +37,25 @@ export default function PublishCourse() {
             goToCourses()
             return
           }
+          console.log('inside course publish ')
           const formData = new FormData();
-          formData.append('course',course._id);
+          console.log("logging course id",course._id)
+          formData.append("courseId",course._id);
           const courseStatus = getValues('public') ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT;
-          formData.append('status',courseStatus)
+          console.log("logging courseStatus",courseStatus)
+          formData.append("status",courseStatus)
+          // console.log("logging FormData",formData)
+          formData.forEach((value, key) => {
+            console.log(key, value);
+        });
           setLoading(true)
+          console.log('calling editCourseDetails')
           const result = await editCourseDetails(formData,token)
           if(result) goToCourses()
-            setLoading(false)
-
+          setLoading(false)
     }
     const onSubmit = (data) =>{
+      console.log('onSubmit called')
         handleCoursePublish();
     }
     const goBack = () => {

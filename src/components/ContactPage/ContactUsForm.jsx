@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { apiConnector } from '../../services/apiConnector'
 import CountryCode from '../../data/countrycode.json'
 // import { apiConnector } from '../../services/apiConnector'
-import { contactUsEndpoint } from '../../services/apis'
+import {contactUsEndpoint}  from '../../services/apis'
 
 const ContactUsForm = () => {
   const [loading, setLoading] = useState(false)

@@ -11,7 +11,9 @@ const { categories } = require("../../src/services/apis");
 
 exports.editCourse = async (req,res) =>{
   try{
+    console.log("request body is:................................",req.body)
     let {courseId} = req.body;
+    console.log(courseId)
     const course = await Course.findById(courseId)
     if(!course){
       return res.status(404).json({
@@ -20,7 +22,7 @@ exports.editCourse = async (req,res) =>{
       })
     }
 
-    //?if thumbnail is passed to be updated?
+    //?it thumbnail is passed to be updated?
     if(req.files){
       const thumbnail = req.files.thumbnailImage
       // upload it to cloudinary
@@ -40,9 +42,33 @@ exports.editCourse = async (req,res) =>{
         }
       }
     }
-    // await course.save()
+    await course.save()
+
+    const updatedCourse = await Course.findById(courseId)
+    .populate({
+      path: "instructor",
+      populate: {
+        path: "additionalDetails",
+      },
+    })
+    .populate("category")
+    .populate("ratingAndReviews")
+    .populate({
+      path: "courseContent",
+      populate: {
+        path: "subSection",
+      },
+    })
+    .exec()
+
 
     // const updatedCourse = await Course.findById(courseId)
+
+    return res.status(200).json({
+      success:true,
+      message:"course added successfully",
+      data:updatedCourse
+    })
 
     
 
