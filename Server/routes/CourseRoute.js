@@ -52,7 +52,7 @@ router.post('/editCorse',editCourse)
 //**                                    Section Routes
 //********************************************************************************************************************* */
 router.post("/createSection", auth, isInstructor, createSection); // route tested
-router.put("/updateSection", auth, isInstructor, updateSection); // route tested
+router.post("/updateSection", auth, isInstructor, updateSection); // route tested
 //!!! this should be delete method instead post!!!!!
 router.delete("/deleteSection", auth, isInstructor, deleteSection); // route tested
 

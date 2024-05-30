@@ -41,7 +41,9 @@ export const CourseBuilderForm = () => {
     setLoading(true)
     let result = null
 
-    if (editSectionName) {
+    if (editSectionName) {// weather the editSectionName value will be null or it will be id of the section 
+      // that is being updated
+      
       result = await updateSection(
         {
           sectionName: data.sectionName,
@@ -58,6 +60,7 @@ export const CourseBuilderForm = () => {
             },
             token
         )
+        // console.log(result)
     }
 
     if(result ){
@@ -66,6 +69,9 @@ export const CourseBuilderForm = () => {
         setValue('sectionName','');
     }
     setLoading(false);
+    // on the success full submission of this function
+    // the length of the courseContent will be > 0
+    // and the nestedView component will be rendered
   }
   const cancelEdit = () =>{
     setEditSectionName(null);
@@ -87,14 +93,19 @@ export const CourseBuilderForm = () => {
       //if everything is good
       dispatch(setStep(3))
     }
-  
+
+
+
     const handleChangeEditSectionName = (sectionId, sectionName) => {
+      // this is used to return to the create section function and stop the editSection 
       if (editSectionName === sectionId) {
         cancelEdit()
         return
       }
-  
+      
+      // this will set the editSectionName to the sectionId
       setEditSectionName(sectionId)
+      // this will bring current secName to the input 
       setValue('sectionName', sectionName)
     }
   
@@ -112,11 +123,11 @@ export const CourseBuilderForm = () => {
               {...register('sectionName', { required: true })}
               className='w-full'
             />
-            {errors.sectionName && <span>Section Name is required</span>}
+            {errors.sectionName && <span className='ml-2 text-xs tracking-wide text-pink-200'>Section Name is required</span>}
           </div>
           <div className='mt-10 flex w-full'>
             <IconBtn
-              type='Submit'
+              type='submit'
               text={editSectionName ? 'Edit Section Name' : 'Create Section'}
               outline={true}
               customClasses={'text-white'}
