@@ -1,7 +1,7 @@
 // Import necessary modules
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
-const { uploadVideoToCloudinary } = require("../utils/videoUploader");
+const { uploadImageToCloudinary } = require("../utils/imageUploader");
 require('dotenv').config();
 // Create a new sub-section for a given section
 exports.createSubSection = async (req, res) => {
@@ -9,7 +9,7 @@ exports.createSubSection = async (req, res) => {
     // Extract necessary information from the request body
     const { sectionId, title, description } = req.body;
     const video = req.files.video;
-    // console.log(req.files);
+    console.log(req.files);
 
     // Check if all necessary fields are provided
     if (!sectionId || !title || !description || !video) {
@@ -20,7 +20,7 @@ exports.createSubSection = async (req, res) => {
     // console.log(video);
 
     // Upload the video file to Cloudinary
-    let uploadDetails = await uploadVideoToCloudinary(
+    let uploadDetails = await uploadImageToCloudinary(
       video,
       process.env.FOLDER_NAME
     );
