@@ -19,6 +19,8 @@ import MyProfile from "./components/core/Dashboard/MyProfile";
 import Settings from "./components/core/Dashboard/Settings";
 import Cart from "./components/core/Dashboard/Cart";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+// import CoursesTable from "./components/core/Dashboard/InstructorCourses/CoursesTable";
+import MyCourses from "./components/core/Dashboard/MyCourses";
 
 import { useSelector } from "react-redux";
 import { ACCOUNT_TYPE } from "./utils/constants";
@@ -104,7 +106,7 @@ function App() {
           <>
             <Route path="/dashboard/add-course" element={<AddCourse />} />
             <Route path="/dashboard/instructor" element={<div className="text-white font-light bg-richblack-700"> This is information about instructor</div>}></Route>
-            <Route path="/dashboard/my-courses" element={<div className="text-white font-light bg-richblack-700"> These are my courses</div>}></Route>
+            <Route path="/dashboard/my-courses" element={<MyCourses className="text-white font-light bg-richblack-700"/>}></Route>
           </>
         )}
 

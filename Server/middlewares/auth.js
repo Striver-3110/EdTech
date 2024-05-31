@@ -22,6 +22,7 @@ exports.auth = async (req, res, next) => {
     // console.log(token)
     //? req.headers() line was causing the error
     // req.headers("auth-token").replace("Bearer", "");
+    // console.log("token at auth is: ",token)
     if (!token) {
       console.log("Invalid request!");
       return res.status(400).json({
@@ -37,6 +38,7 @@ exports.auth = async (req, res, next) => {
       if (!data) {
         return res.status(400).json({ msg: "no data found!" });
       }
+      // console.log("found data of user", data)
       // console.log(data)
       const email = data?.email;
       const user = await User.findOne({ email });

@@ -5,7 +5,9 @@ const {
   createCourse,
   showAllCourses,
   getCourseDetails,
-  editCourse
+  editCourse,
+  getInstructorCourses,
+  deleteCourse
 } = require("../controllers/Course");
 
 
@@ -48,6 +50,7 @@ router.get("/getAllCourses", showAllCourses); // route tested
 
 router.get("/getCourseDetails", auth,getCourseDetails); // route tested
 router.post("/editCourse",auth, isInstructor,editCourse)
+router.delete("/deleteCourse",auth,isInstructor,deleteCourse)
 
 //********************************************************************************************************************* */
 //**                                    Section Routes
@@ -78,5 +81,7 @@ router.post("/getRating", getAllRating);
 router.post("/createCategory", auth, isAdmin, createCategory); // admin only route // route tested
 router.get("/showAllCategories", showAllCategories);// route tested
 router.get("/categoryPageDetails", categoryPageDetails);// route tested
+
+router.get("/getInstructorCourses",auth,isInstructor,getInstructorCourses)
 
 module.exports = router;

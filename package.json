@@ -21,6 +21,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "react-super-responsive-table": "^5.2.3",
     "react-type-animation": "^3.0.1",
     "redux-toolkit": "^1.1.2",
     "swiper": "^9.3.2",
@@ -30,9 +31,8 @@
   "repository": {
     "type": "git"
   },
-  "author": "Prajapati jay",
-  "bugs": {
-  },
+  "author": "Prajapati Jay",
+  "bugs": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
