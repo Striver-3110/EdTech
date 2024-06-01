@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { apiConnector } from '../services/apiConnector';
 import { categories } from '../services/apis';
+import { getCatalogPageData } from '../services/operations/catalogPageDataAPI';
 
 export default function Catalog() {
     const [categoryPageData, setCategoryPageData] = useState(null);
@@ -17,16 +18,32 @@ export default function Catalog() {
         (async () =>{
             try {
                 const allCategories = await apiConnector("GET",categories.CATEGORIES_API)
-                console.log("all the categories at catalog are:",allCategories?.data?.allCategories)
+                // console.log("all the categories at catalog are:",allCategories?.data?.allCategories)
                 let fetchedCategoryId = allCategories?.data?.allCategories?.filter((c) => {
                     return c.name.split(" ").join("-").split("/").join("-").toLowerCase() === catalogName;
                 })[0]?._id;
-                console.log("category id at catalog page is:......\n",fetchedCategoryId)
+                // console.log("category id at catalog page is:......\n",fetchedCategoryId)
+                setCategoryId(fetchedCategoryId);
             } catch (error) {
                 console.log("error at catalog page is:............\n",error)
             }
         })()
     },[catalogName])
+
+    useEffect(()=>{
+        if(categoryId)
+        (
+            
+            async ()=>{
+                try {
+                    const res = await getCatalogPageData(categoryId)
+                    console.log(res)
+                } catch (error) {
+                    
+                }
+            }
+        )()
+    })
   return (
     <div className='box-content bg-richblack-800 px-4'>
         <div className=''>

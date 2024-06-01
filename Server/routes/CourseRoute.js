@@ -82,7 +82,7 @@ router.post("/getRating", getAllRating);
 
 router.post("/createCategory", auth, isAdmin, createCategory); // admin only route // route tested
 router.get("/showAllCategories", showAllCategories);// route tested
-router.get("/categoryPageDetails", categoryPageDetails);// route tested
+router.post("/getCategoryPageDetails", categoryPageDetails);// route tested
 
 router.get("/getInstructorCourses",auth,isInstructor,getInstructorCourses)
 
