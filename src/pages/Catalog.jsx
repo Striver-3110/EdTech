@@ -5,6 +5,8 @@ import { categories } from '../services/apis'
 import { getCatalogPageData } from '../services/operations/catalogPageDataAPI'
 import Error from './Error'
 import Footer from '../components/common/Footer'
+import CourseSlider from '../components/core/Catalog/CourseSlider'
+
 
 export default function Catalog () {
   const [catalogPageData, setCatalogPageData] = useState(null)
@@ -116,10 +118,7 @@ export default function Catalog () {
             New
           </p>
           <div>
-            {/* to be implemented */}
-            <span className='text-white'>
-         Course Slider
-            </span>
+          <CourseSlider courses={catalogPageData?.data?.selectedCategory?.courses}/>
           </div>
         </div>
       </div>
@@ -130,9 +129,8 @@ export default function Catalog () {
         </div>
         <div className="py-8">
             {/* to be implemented */}
-         <span className='text-white'>
-         Course Slider
-            </span>
+            <CourseSlider courses={catalogPageData?.data?.selectedCategory?.courses}/>
+
             
         </div>
       </div>
