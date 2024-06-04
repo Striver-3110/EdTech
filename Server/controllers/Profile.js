@@ -1,30 +1,47 @@
 const Profile = require("../models/Profile");
-const Course = require('../models/Course')
+const Course = require("../models/Course");
 const User = require("../models/User");
-const { uploadImageToCloudinary } = require('../utils/imageUploader');
+const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { dateOfBirth = "", about = "", contactNumber } = req.body;
-    if (!contactNumber) {
-      return res.status(400).json({
-        success: false,
-        error: "please enter Phone Number!",
-      });
-    }
+    const {
+      dateOfBirth = "",
+      about = "",
+      contactNumber = "",
+      firstName = "",
+      lastName = "",
+      gender = "",
+    } = req.body;
+    // if (!contactNumber) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     error: "please enter Phone Number!",
+    //   });
+    // }
     const userId = req.user.id;
-    const user = await User.findById({_id:userId});
+
+    const user = await User.findByIdAndUpdate(userId,{
+      firstName,lastName
+    });
+    await user.save();
+
     const profile = await Profile.findById(user.additionalDetails);
 
     profile.dateOfBirth = dateOfBirth;
     profile.about = about;
     profile.contactNumber = contactNumber;
+    profile.gender = gender;
     await profile.save();
+
+    const updatedUserDetails = await User.findById(userId);
+
+
 
     return res.status(200).json({
       success: true,
-      profile,
       message: "Profile details added successfully",
+      updatedUserDetails,
     });
   } catch (error) {
     console.log(error);
@@ -34,8 +51,6 @@ exports.updateProfile = async (req, res) => {
     });
   }
 };
-
-
 
 exports.deleteAccount = async (req, res) => {
   try {
@@ -65,11 +80,10 @@ exports.deleteAccount = async (req, res) => {
   }
 };
 
-
 exports.getAllUserDetails = async (req, res) => {
   try {
     const id = req.user.id;
-    const userDetails = await User.findById({ _id:id })
+    const userDetails = await User.findById({ _id: id })
       .populate("additionalDetails")
       .exec();
     console.log(userDetails);
@@ -96,7 +110,6 @@ exports.updateDisplayPicture = async (req, res) => {
         message: "No file uploaded",
       });
     }
-
 
     const displayPicture = req.files.displayPicture; // Updated this line
     const userId = req.user.id;
@@ -154,33 +167,36 @@ exports.getEnrolledCourses = async (req, res) => {
   }
 };
 
-exports.instructorDashboard = async (req,res) =>{
+exports.instructorDashboard = async (req, res) => {
   try {
     //? get instructor id from req.user
     const instructorId = req.user.id;
-    console.log("instructor id instructor dashboard profile apis is: ",instructorId)
+    console.log(
+      "instructor id instructor dashboard profile apis is: ",
+      instructorId
+    );
     //? fetch all the courses of instructor
-    const courses = await Course.find({instructor:instructorId})
-    const courseData = courses.map((course)=>{
-      const totalStudentsEnrolled = course.studentsEnrolled.length
-      const totalAmountGenerated = course.price * totalStudentsEnrolled
+    const courses = await Course.find({ instructor: instructorId });
+    const courseData = courses.map((course) => {
+      const totalStudentsEnrolled = course.studentsEnrolled.length;
+      const totalAmountGenerated = course.price * totalStudentsEnrolled;
 
       // lets create course data object containing all the course related information
       const courseDataWithStats = {
         _id: course._id,
         courseName: course.name,
-        courseDescription : course.courseDescription,
+        courseDescription: course.courseDescription,
         totalStudentsEnrolled,
-        totalAmountGenerated
-      }
+        totalAmountGenerated,
+      };
       return courseDataWithStats;
-    })
-    res.status(200).json({ courses: courseData })
+    });
+    res.status(200).json({ courses: courseData });
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ 
-      success:false,
+    console.error(error);
+    res.status(500).json({
+      success: false,
       message: "Server Error",
-     })
+    });
   }
-}
+};

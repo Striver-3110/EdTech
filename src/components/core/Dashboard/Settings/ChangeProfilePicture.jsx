@@ -68,12 +68,15 @@ const ChangeProfilePicture = () => {
                 className='hidden'
                 accept='image/png,image/gif,image/jpeg'
               />
-              <button className='cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50'>
+              <button 
+              onClick={handleClick}
+              disabled={loading}
+              className='cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50'>
                 Select
               </button>
               <IconBtn
                 text={loading ? 'Uploading...' : 'Upload'}
-                onClick={handleFileUpload}
+                onclick={handleFileUpload}
               >
                 {!loading && (
                   <FiUpload className='text-lg text-richblack-900' />

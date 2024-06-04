@@ -11,7 +11,7 @@ export default function CourseCard ({ course, height }) {
         const count = GetAvgRating(course.ratingAndReviews)
         setAvgReviewCount(count)
       }, [course])
-  console.log('course at course Card component is :', course)
+//   console.log('course at course Card component is :', course)
   return (
     <>
       <Link to={`/courses/${course._id}`}>

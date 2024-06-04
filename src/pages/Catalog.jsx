@@ -31,7 +31,8 @@ export default function Catalog () {
         )
         setLoading(false)
 
-        console.log("all the categories at catalog are:",allCategories?.data?.allCategories)
+        // console.log("all the categories at catalog are:",allCategories?.data?.allCategories)
+        console.log("all the categories at catalog are:",allCategories)
         let fetchedCategoryId = allCategories?.data?.allCategories?.filter(
           c => {
             return (
@@ -55,8 +56,9 @@ export default function Catalog () {
 
         try {
           const res = await getCatalogPageData(categoryId)
-          console.log(res)
+        //   console.log(res)
           setCatalogPageData(res)
+          console.log("catalog page data after getCatalogPageData api fire: \n",catalogPageData)
         } catch (error) {
           console.log('Error at Catalog.jsx', error)
         }
@@ -95,9 +97,9 @@ export default function Catalog () {
         </div>
       </div>
       {/* Section 1 of catalog page */}
-      <div className=''>
-        <div>Courses to get you started</div>
-        <div>
+      <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+        <div className="section_heading">Courses to get you started</div>
+        <div className="my-4 flex border-b border-b-richblack-600 text-sm">
           <p
             className={`px-4 py-2 ${
               active === 1
@@ -118,10 +120,11 @@ export default function Catalog () {
           >
             New
           </p>
-          <div>
+          
+        </div>
+        <div>
           <CourseSlider courses={catalogPageData?.data?.selectedCategory?.courses}/>
           </div>
-        </div>
       </div>
       {/* Section 2 of catalog page */}
       <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
