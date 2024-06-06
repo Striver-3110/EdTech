@@ -23,6 +23,7 @@ import EditCourse from "./components/core/Dashboard/EditCourse";
 import Instructor from "./components/core/Dashboard/Instructor";
 // import CoursesTable from "./components/core/Dashboard/InstructorCourses/CoursesTable";
 import MyCourses from "./components/core/Dashboard/MyCourses";
+import CourseDetails from "./pages/CourseDetails";
 
 import { useSelector } from "react-redux";
 import { ACCOUNT_TYPE } from "./utils/constants";
@@ -93,6 +94,7 @@ function App() {
             </OpenRoute>
           }
         ></Route>
+          <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route
           path="/dashboard"
           element={

@@ -49,7 +49,7 @@ const {
 router.post("/createCourse", auth, isInstructor, createCourse); // route tested
 router.get("/getAllCourses", showAllCourses); // route tested
 
-router.get("/getCourseDetails", auth,getCourseDetails); // route tested
+router.post("/getCourseDetails",getCourseDetails); // route tested
 router.post("/editCourse",auth, isInstructor,editCourse)
 router.delete("/deleteCourse",auth,isInstructor,deleteCourse)
 router.post("/getFullCourseDetails",auth,isInstructor,getFullCourseDetails)
