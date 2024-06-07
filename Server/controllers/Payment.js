@@ -235,7 +235,9 @@
 const mongoose = require("mongoose");
 const instance = require("../config/razorpay");
 const Course = require("../models/Course");
-const { FaSlideshare } = require("react-icons/fa");
+// const { FaSlideshare } = require("react-icons/fa");
+const CourseProgress = require("../models/CourseProgress");
+const User = require("../models/User");
 
 exports.capturePayment = async (req, res) => {
   try {
@@ -337,21 +339,100 @@ exports.verifyPayment = async (req, res) => {
       .createHmac("sha256", process.env.RAZORPAY_SECRETE)
       .update(body.toString())
       .digest("hex");
-      
+
     const userId = req.body.id;
 
-    if(expectedSignature === razorpay_signature){
+    if (expectedSignature === razorpay_signature) {
       //! enroll student
       // send response
       return res.status(200).json({
-        success:true,
-        message:"students enrolled successfully"
-      })
+        success: true,
+        message: "students enrolled successfully",
+      });
     }
   } catch (error) {
     return res.status(500).json({
-      success:false,
-      message:"Internal server error" + error.message
-    })
+      success: false,
+      message: "Internal server error" + error.message,
+    });
   }
+};
+
+exports.enrollStudents = async (courses, studentId, res) => {
+  if (!studentId) {
+    return res.status(400).json({
+      success: false,
+      message: "studentId not found",
+    });
+  }
+  if (!courses) {
+    return res.status(400).json({
+      success: false,
+      message: "Courses not found",
+    });
+  }
+
+  for (const courseId of courses) {
+    try {
+      const enrolledCourses = await Course.findOneAndUpdate(
+        {_id : courseId},
+        {$push:{studentEnrolled:userId}},
+
+      )
+      if(!enrolledCourses){
+        return res.json({
+          success:false,
+          message:"could not enroll student to the courses"
+        })
+      }
+
+      console.log("Updated Courses:",enrolledCourses);
+
+      const courseProgress = await CourseProgress.create({
+        courseId:courseId,
+        userId:studentId,
+        completedVideos:[]
+      })
+      
+      if(!courseProgress){
+        return res.status(501).json({
+          success:false,
+          message:"courseProgress creation failed"
+        })
+      }
+
+      const enrolledStudent = await User.findOneAndUpdate(
+        studentId,
+        {
+          $push:{
+            courses:courseId,
+            courseProgress:courseProgress._id
+          }
+        }
+      )
+
+      console.log("enrolled Student :",enrolledStudent);
+
+      const emailResponse = await mailSender(
+        enrolledStudent.email,
+        `Successfully enrolled into ${enrolledCourses.courseName}`,
+        courseEnrollmentEmail(
+          enrolledCourses.courseName,
+          `${enrolledStudent.firstName} ${enrolledStudent.lastName}`
+        )
+      )
+
+      console.log("Email sent successfully:",emailResponse);
+
+
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success:false,
+        message:"Internal Server Error: " + error.message
+      })
+    }
+  }
+  try {
+  } catch (error) {}
 };
